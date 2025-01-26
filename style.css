@@ -1,6 +1,8 @@
+
+
 :root {
   --color-accent: oklch(47.65% 0.111 238.24);
-  /* color-scheme: dark; */
+
 }
 
 html {
@@ -20,7 +22,7 @@ nav {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   border-bottom-color: oklch(80% 3% 200)
-  /* oklch(50% 10% 200) */
+ 
   
 }
 
@@ -52,7 +54,7 @@ a:hover {
   padding-bottom: 0.1em;
 
   background-color: oklch(from var(--color-accent) 95% 5% h)
-  /* background-color: color-mix(in oklch, var(--color-accent), oklch(18% 0.03 247) 85%); */
+  
 }
 
  form {
@@ -113,6 +115,25 @@ h1{
   font-size: 400%;
 }
 
+label
+ {
+  position: absolute;  
+  top: 0rem;           
+  right: 0rem;         
+  font-size: 80%;     
+  font-family: inherit;
+  z-index: 1000;       
+}
 
+select,
+option
+ {
+  position: absolute; 
+  top: 1rem;           
+  right: 0rem;        
+  font-size: 80%;      
+  font-family: inherit; 
+  z-index: 1000;       
+ }
 
 

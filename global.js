@@ -26,12 +26,6 @@ document.body.prepend(nav);
 
 const BASE_PATH = '/portfolio';
 
-// for (let p of pages) {
-//   let url = p.url.startsWith('/') && !p.url.startsWith('http') ? BASE_PATH + p.url : p.url;
-//   let title = p.title;
-//   nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
-// }
-
 
 for (let p of pages) {
   let url = p.url === '' ? BASE_PATH : (p.url.startsWith('/') && !p.url.startsWith('http') ? BASE_PATH + p.url : p.url);
@@ -53,3 +47,20 @@ nav.append(a);
 if (a.host === location.host && a.pathname === location.pathname) {
   a.classList.add('current');
 }
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const select = document.querySelector('#color-scheme-select');
+  
+  // Check if the select element exists before adding the event listener
+  if (select) {
+    select.addEventListener('input', function (event) {
+      const selectedScheme = event.target.value;
+      console.log('Color scheme changed to', selectedScheme);
+      
+      // Change the color scheme on the root element
+      document.documentElement.style.setProperty('color-scheme', selectedScheme);
+    });
+  }
+});
+
