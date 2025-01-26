@@ -1,5 +1,6 @@
 :root {
   --color-accent: oklch(47.65% 0.111 238.24);
+  /* color-scheme: dark; */
 }
 
 html {
@@ -18,7 +19,9 @@ nav {
   margin-bottom: auto;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: oklch(80% 3% 200);
+  border-bottom-color: oklch(80% 3% 200)
+  /* oklch(50% 10% 200) */
+  
 }
 
 nav ul,
@@ -49,6 +52,7 @@ a:hover {
   padding-bottom: 0.1em;
 
   background-color: oklch(from var(--color-accent) 95% 5% h)
+  /* background-color: color-mix(in oklch, var(--color-accent), oklch(18% 0.03 247) 85%); */
 }
 
  form {
@@ -108,4 +112,7 @@ article {
 h1{
   font-size: 400%;
 }
+
+
+
 

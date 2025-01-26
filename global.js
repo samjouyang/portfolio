@@ -26,23 +26,30 @@ document.body.prepend(nav);
 
 const BASE_PATH = '/portfolio';
 
+// for (let p of pages) {
+//   let url = p.url.startsWith('/') && !p.url.startsWith('http') ? BASE_PATH + p.url : p.url;
+//   let title = p.title;
+//   nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
+// }
+
+
 for (let p of pages) {
-  let url = p.url.startsWith('/') && !p.url.startsWith('http') ? BASE_PATH + p.url : p.url;
+  let url = p.url === '' ? BASE_PATH : (p.url.startsWith('/') && !p.url.startsWith('http') ? BASE_PATH + p.url : p.url);
   let title = p.title;
   nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
 }
 
 
 
-// url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 
 
 
-// let a = document.createElement('a');
-// a.href = url;
-// a.textContent = title;
-// nav.append(a);
+let a = document.createElement('a');
+a.href = url;
+a.textContent = title;
+nav.append(a);
 
-// if (a.host === location.host && a.pathname === location.pathname) {
-//   a.classList.add('current');
-// }
+if (a.host === location.host && a.pathname === location.pathname) {
+  a.classList.add('current');
+}
