@@ -200,7 +200,7 @@ for (let p of pages) {
 
 
 
-url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+// url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 
 
 
