@@ -53,13 +53,13 @@ if (a.host === location.host && a.pathname === location.pathname) {
 document.addEventListener('DOMContentLoaded', function () {
   const select = document.querySelector('#color-scheme-select');
   
-  // Check if the select element exists before adding the event listener
+
   if (select) {
     select.addEventListener('input', function (event) {
       const selectedScheme = event.target.value;
       console.log('Color scheme changed to', selectedScheme);
       
-      // Change the color scheme on the root element
+
       document.documentElement.style.setProperty('color-scheme', selectedScheme);
     });
   }
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 export async function fetchJSON(url) {
   try {
-      // Fetch the JSON file from the given URL
+
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -92,7 +92,7 @@ export async function fetchJSON(url) {
 
 
 export function renderProjects(project, containerElement, headingLevel = 'h2') {
-  // Check if containerElement is valid
+
   containerElement.innerHTML = '';
 
   for (let x of project){
