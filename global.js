@@ -1,4 +1,4 @@
-// console.log('IT’S ALIVE!');
+console.log('IT’S ALIVE!');
 
 // function $$(selector, context = document) {
 //   return Array.from(context.querySelectorAll(selector));
@@ -180,7 +180,7 @@ let pages = [
 let nav = document.createElement('nav');
 document.body.prepend(nav);
 
-// const ARE_WE_HOME = document.documentElement.classList.contains('home');
+const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
 // for (let p of pages) {
 //   let url = p.url;
@@ -200,7 +200,7 @@ for (let p of pages) {
 
 
 
-// url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 
 
 
