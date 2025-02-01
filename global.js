@@ -23,7 +23,32 @@ const ARE_WE_HOME = document.documentElement.classList.contains('home');
 for (let p of pages) {
   let url = p.url;
   let title = p.title;
-  nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
+
+
+
+
+  url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
+
+  // Create the anchor element and set its attributes
+  let a = document.createElement('a');
+  a.href = url;
+  a.textContent = title;
+
+  // Add the 'current' class if the link matches the current page
+  if (a.host === location.host && a.pathname === location.pathname) {
+    a.classList.add('current');
+  }
+
+  // Append the anchor element to the nav
+  nav.append(a);
+
+
+
+
+
+
+
+  // nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
 }
 
 
@@ -38,18 +63,20 @@ for (let p of pages) {
 
 
 
-url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 
 
+// url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 
-let a = document.createElement('a');
-a.href = url;
-a.textContent = title;
-nav.append(a);
 
-if (a.host === location.host && a.pathname === location.pathname) {
-  a.classList.add('current');
-}
+// let a = document.createElement('a');
+// a.href = url;
+// a.textContent = title;
+// nav.append(a);
+
+// if (a.host === location.host && a.pathname === location.pathname) {
+//   a.classList.add('current');
+// }
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
