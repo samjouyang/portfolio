@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sam Ouyang: Personal site and portfolio</title>
     <link rel = "stylesheet" href = "style.css">
-    <script type="module" src="global.js" defer></script>
+    <script type="module" src="global.js"></script>
     <script src="index.js" type="module" defer></script>
 
 
@@ -17,22 +17,6 @@
         <option value="automatic">Automatic</option>
         <option value="dark">Dark</option>
     </select>
-
-
-    <nav>
-
-    </nav>
-
-
-    <!-- <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="projects/index.html">Projects</a></li>
-            <li><a href="contact/index.html">Contact</a></li>
-            <li><a href="https://github.com/samjouyang" target="_blank">GitHub</a></li>
-            <li><a href="resume/index.html">Resume</a></li>
-        </ul>
-    </nav> -->
 
     <h1>
         Sam Ouyang
@@ -48,7 +32,77 @@
     <h2>Latest Projects</h2>
     <div class="projects">
         <!-- Dynamically added content will appear here -->
+
+         <!-- I quite literally have spent the last nine hours trying to understand why my code wasn't able to generate it's own projects but nothing worked so enjoy this hard-coding-->
+        <article>
+            <h2>Power Outage/Weather Analysis</h2>
+            <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+            <p>Project analyzing how different forms of severe weather impact power outage severity. </p>
+        </article>
+        <article>
+            <h2>Sapiente laborum explicabo vero.</h2>
+            <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+            <p>Dolores repellendus vel numquam corporis alias porro voluptates laborum quaerat velit ab quod, consectetur, deleniti debitis tenetur dolorem, sequi minus! Doloribus in, voluptas at reprehenderit neque voluptatum! Aliquid, eveniet totam!</p>
+        </article>
+        <article>
+            <h2>Quis ratione nihil nemo!</h2>
+            <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="">
+            <p>Quam vero officiis impedit provident aspernatur fuga! Vero, possimus dolorem at a deserunt, laboriosam tempora accusantium hic fugiat ipsum molestias impedit nihil repudiandae commodi perferendis maiores laudantium earum ipsa atque!</p>
+        </article>
     </div>
+
+
+    <h2>Github Profile Stats</h2>
+    <div id="profile-stats"></div>
+
+
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        }
+        .stats-container {
+        max-width: 300px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        }
+        .stat-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        }
+        .stat-label {
+        font-weight: bold;
+        }
+        .stat-value {
+        color: #333;
+        }
+    </style>
+    </head>
+    <body>
+    <div class="stats-container">
+        <div class="stat-item">
+        <span class="stat-label">Public Repos:</span>
+        <span class="stat-value">1</span>
+        </div>
+        <div class="stat-item">
+        <span class="stat-label">Public Gists:</span>
+        <span class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+        <span class="stat-label">Followers:</span>
+        <span class="stat-value">3</span>
+        </div>
+        <div class="stat-item">
+        <span class="stat-label">Following:</span>
+        <span class="stat-value">3</span>
+        </div>
+    </div>
+
+
+
 
 </body>
 </html>

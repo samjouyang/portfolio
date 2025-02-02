@@ -45,16 +45,15 @@ for (let p of pages) {
 
 export async function fetchJSON(url) {
   try {
+    const response = await fetch(url);
 
-      const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects: ${response.statusText}`);
+    }
+    console.log(response)
 
-      if (!response.ok) {
-        throw new Error(`Failed to fetch projects: ${response.statusText}`);
-      }
-      console.log(response)
-
-      const data = await response.json();
-      return data; 
+    const data = await response.json();
+    return data; 
 
       
 
@@ -88,5 +87,6 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
 export async function fetchGitHubData(username) {
   return fetchJSON(`https://api.github.com/users/${username}`);
 }
+
 
 

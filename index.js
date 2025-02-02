@@ -1,13 +1,14 @@
 import { fetchJSON, renderProjects, fetchGithubData } from './global.js';
-
 const projects = await fetchJSON('./lib/projects.json');
 const latestProjects = projects.slice(0, 3);
-
 const projectsContainer = document.querySelector('.projects');
 
-renderProjects(latestProjects, projectsContainer, 'h2');
+// renderProjects(latestProjects, projectsContainer, 'h2');
+latestProjects.forEach(project => {
+    renderProjects(project, projectsContainer, 'h2');
+  });
 
-const githubData = await fetchGitHubData('samjouyang');
+const githubData = await fetchGithubData('samjouyang');
 
 const profileStats = document.querySelector('#profile-stats');
 
@@ -21,3 +22,5 @@ if (profileStats) {
           </dl>
       `;
   }
+
+
