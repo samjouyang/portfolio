@@ -44,17 +44,6 @@ for (let p of pages) {
 
 
 
-// let currentPath = window.location.pathname.replace(/\/$/, ''); 
-// for (let link of nav.querySelectorAll('a')) {
-//   let linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '');
-//   if (linkPath === currentPath) {
-//     link.classList.add('current');
-//   }
-// }
-
-
-
-
 
 export async function fetchJSON(url) {
   try {
