@@ -35,8 +35,6 @@ for (let p of pages) {
   let url = p.url;
   let title = p.title;
 
-  
-  // url = !ARE_WE_HOME && !url.startsWith('http') ? '${INITIAL}/${url}' : url;
   url = url.startsWith('http') ? url : `${INITIAL}${url}`;
   nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
 
@@ -84,6 +82,11 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
   }
   
 
+}
+
+
+export async function fetchGitHubData(username) {
+  return fetchJSON(`https://api.github.com/users/${username}`);
 }
 
 
