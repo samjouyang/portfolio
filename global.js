@@ -8,11 +8,11 @@ function $$(selector, context = document) {
 }
 
 let pages = [
-  { url: '', title: 'Home' },
-  { url: 'projects/', title: 'Projects' },
-  { url: 'contact/', title: 'Contacts' },
-  { url: 'resume/', title: 'Resume' },
-  { url: 'https://github.com/samjouyang', title: 'GitHub' },
+  { url: '/', title: 'Home' },
+  { url: '/projects/', title: 'Projects' },
+  { url: '/contact/', title: 'Contacts' },
+  { url: '/resume/', title: 'Resume' },
+  { url: '/https://github.com/samjouyang', title: 'GitHub' },
 ];
 
 let nav = document.createElement('nav');
