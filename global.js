@@ -44,13 +44,13 @@ for (let p of pages) {
 
 
 
-let currentPath = window.location.pathname.replace(/\/$/, ''); 
-for (let link of nav.querySelectorAll('a')) {
-  let linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '');
-  if (linkPath === currentPath) {
-    link.classList.add('current');
-  }
-}
+// let currentPath = window.location.pathname.replace(/\/$/, ''); 
+// for (let link of nav.querySelectorAll('a')) {
+//   let linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, '');
+//   if (linkPath === currentPath) {
+//     link.classList.add('current');
+//   }
+// }
 
 
 
@@ -87,9 +87,9 @@ export function renderProjects(project, containerElement, headingLevel = 'h2') {
   for (let x of project){
     const article = document.createElement('article');
     article.innerHTML = `
-    <h3>${project.title}</h3>
-    <img src="${project.image}" alt="${project.title}">
-    <p>${project.description}</p>
+    <h3>${x.title}</h3>
+    <img src="${x.image}" alt="${x.title}">
+    <p>${x.description}</p>
 `;
     containerElement.appendChild(article);
   }
