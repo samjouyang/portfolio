@@ -136,3 +136,58 @@ option
   z-index: 1000;       
  }
 
+ #projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+
+  overflow: visible;
+}
+
+
+#projects-pie-plot-container {
+  display: flex; /* Use Flexbox to align items horizontally */
+  align-items: center; /* Vertically center the pie chart and legend */
+  gap: 20px; /* Space between the pie chart and legend */
+}
+
+/* Styles for the pie chart */
+/* #projects-pie-plot {
+  width: 200px; 
+  height: 200px; 
+} */
+
+
+
+.legend {
+  list-style: none; /* Remove default list styling */
+  padding: 0;
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between legend items */
+}
+
+/* Styles for each legend item */
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between swatch and text */
+  font-size: 14px;
+  color: #333; /* Default text color */
+}
+
+/* Styles for the swatch */
+.legend .swatch {
+  width: 16px; /* Size of the swatch */
+  height: 16px; /* Size of the swatch */
+  aspect-ratio: 1 / 1; /* Ensure it's a square */
+  background-color: var(--color); /* Use the --color variable */
+  border-radius: 4px; /* Slightly rounded corners */
+  display: inline-block;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  .legend li {
+      color: #ddd; 
+  }
+} */
