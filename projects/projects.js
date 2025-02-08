@@ -13,6 +13,8 @@ projectsTitle.textContent = `${projectCount} Projects`;
 
 renderProjects(projects, projectsContainer, 'h2');
 
+let selectedIndex = -1;
+
 
 function renderPieChart(projectsGiven) {
     // Clear existing SVG and legend content
@@ -43,13 +45,38 @@ function renderPieChart(projectsGiven) {
     // Define color scale
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
   
-    // Render arcs (pie chart slices)
+
+
     newArcs.forEach((arc, idx) => {
       d3.select('svg')
         .append('path')
         .attr('d', arc)
-        .attr('fill', colors(idx));
+        .attr('fill', colors(idx))
+        .on('click', function () { // Changed arrow function to regular function
+          selectedIndex = selectedIndex === idx ? -1 : idx;
+
+          // Highlight the selected wedge
+          d3.selectAll('path').attr('class', null); // Clear previous selections
+          d3.select(this).attr('class', 'selected'); // Use `this` to refer to the clicked wedge
+
+          // Highlight the corresponding legend item
+          d3.selectAll('.legend li').attr('class', null);
+          d3.select(`.legend li:nth-child(${idx + 1})`).attr('class', 'selected');
+
+          // Filter projects based on the selected year
+          if (selectedIndex === -1) {
+            renderProjects(projectsGiven, projectsContainer, 'h2'); // Show all projects if nothing is selected
+          } else {
+            let selectedYear = newData[idx].label;
+            let filteredProjects = projectsGiven.filter(p => p.year === selectedYear);
+            renderProjects(filteredProjects, projectsContainer, 'h2');
+          }
+        });
     });
+
+
+
+
   
     // Render legend
     let legend = d3.select('.legend');
@@ -59,55 +86,8 @@ function renderPieChart(projectsGiven) {
         .attr('style', `--color:${colors(idx)}`)
         .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
     });
+
   }
-
-
-
-
-
-// let selectedIndex = -1;
-
-// let svg = d3.select('svg');
-// svg.selectAll('path').remove();
-// arcs.forEach((arc, i) => {
-//     svg
-//     .append('path')
-//     .attr('d', arc)
-//     .attr('fill', colors(i))
-//     .on('click', () => {
-//         selectedIndex = selectedIndex === i ? -1 : i;
-        
-//         svg
-//         .selectAll('path')
-//         .attr('class', (_, idx) => (
-//             idx === selectedIndex ? 'selected' : ''));
-        
-
-//         legend
-//         .selectAll('li')
-//         .attr('class', (_, idx) => (
-//             idx === selectedIndex ? 'selected' : ''));
-
-//         if (selectedIndex === -1) {
-
-//             renderProjects(projects, projectsContainer, 'h2');
-//         } 
-//         else {
-//             let selectedYear = data[selectedIndex].label;
-//             let filteredProjects = projects.filter(p => p.year === selectedYear);
-//             renderProjects(filteredProjects, projectsContainer, 'h2');
-//         }
-
-        
-
-//     });
-// });
-
-
-
-
-
-
 
 
 renderPieChart(projects);
