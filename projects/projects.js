@@ -44,7 +44,6 @@ function renderPieChart(projectsGiven) {
   
     // Define color scale
     let colors = d3.scaleOrdinal(d3.schemeTableau10);
-  
 
 
     newArcs.forEach((arc, idx) => {
@@ -52,30 +51,31 @@ function renderPieChart(projectsGiven) {
         .append('path')
         .attr('d', arc)
         .attr('fill', colors(idx))
-        .on('click', function () { // Changed arrow function to regular function
-          selectedIndex = selectedIndex === idx ? -1 : idx;
-
-          // Highlight the selected wedge
-          d3.selectAll('path').attr('class', null); // Clear previous selections
-          d3.select(this).attr('class', 'selected'); // Use `this` to refer to the clicked wedge
-
-          // Highlight the corresponding legend item
-          d3.selectAll('.legend li').attr('class', null);
-          d3.select(`.legend li:nth-child(${idx + 1})`).attr('class', 'selected');
-
-          // Filter projects based on the selected year
-          if (selectedIndex === -1) {
-            renderProjects(projectsGiven, projectsContainer, 'h2'); // Show all projects if nothing is selected
+        .on('click', function () {
+          if (selectedIndex === idx) {
+            // Deselect the slice
+            selectedIndex = -1;
+            d3.select(this).attr('fill', colors(idx)); // Revert to original color
+            d3.selectAll('path').attr('class', null); // Clear previous selections
+            d3.selectAll('.legend li').attr('class', null);
+            renderProjects(projectsGiven, projectsContainer, 'h2'); // Show all projects
           } else {
+            // Select the slice
+            selectedIndex = idx;
+            d3.selectAll('path').attr('fill', (d, i) => colors(i)); // Reset all slices to original colors
+            d3.select(this).attr('fill', 'orange'); // Change color of selected slice
+            d3.selectAll('path').attr('class', null); // Clear previous selections
+            d3.select(this).attr('class', 'selected'); // Use `this` to refer to the clicked wedge
+            d3.selectAll('.legend li').attr('class', null);
+            d3.select(`.legend li:nth-child(${idx + 1})`).attr('class', 'selected');
+    
+            // Filter projects based on the selected year
             let selectedYear = newData[idx].label;
             let filteredProjects = projectsGiven.filter(p => p.year === selectedYear);
             renderProjects(filteredProjects, projectsContainer, 'h2');
           }
         });
-    });
-
-
-
+      });
 
   
     // Render legend
