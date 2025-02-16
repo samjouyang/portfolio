@@ -210,3 +210,42 @@ path {
     fill: var(--color);
   }
 }
+
+
+
+.stats-container {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 90%; /* Make it stretch wider */
+  width: 800px; /* Set a fixed width while allowing it to shrink on smaller screens */
+}
+
+.stats-container h2 {
+  text-align: center;
+  color: #333;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns for better horizontal stretch */
+  gap: 15px 20px; /* Space between rows and columns */
+  padding: 10px;
+}
+
+.stats dt {
+  font-weight: bold;
+  color: #555;
+  text-align: right;
+}
+
+.stats dd {
+  margin: 0;
+  color: #222;
+  font-weight: normal;
+  text-align: left;
+}
