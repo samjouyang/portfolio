@@ -249,3 +249,84 @@ path {
   font-weight: normal;
   text-align: left;
 }
+
+
+.gridlines line {
+  stroke: rgba(0, 0, 0, 0.25); /* Light gray with transparency */
+  stroke-dasharray: 4; /* Dashed lines for a softer look */
+}
+
+
+.axis path,
+.axis line {
+  stroke: #333; 
+}
+
+.axis text {
+  font-size: 14px;
+  fill: #555;
+}
+
+
+.dots circle {
+  fill: steelblue;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.dots circle:hover {
+  opacity: 1;
+  fill: orange;
+  transform: scale(1.5);
+  transition: 0.3s;
+}
+
+
+
+dl.info {
+  display: grid;
+  grid-template-columns: 1fr 2fr;  
+  gap: 8px;
+  margin: 0; 
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9); 
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+
+dl.info dt {
+  font-weight: bold;
+  color: #555;
+  margin: 0;
+}
+
+
+dl.info dd {
+  margin: 0;
+  color: #333;
+}
+
+
+.tooltip {
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  z-index: 100; 
+  pointer-events: none; 
+}
+
+
+#commit-link {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+#commit-link:hover {
+  text-decoration: underline;
+}
+
