@@ -133,13 +133,17 @@ function createScatterplot(){
     .attr('cy', (d) => yScale(d.hourFrac))
     .attr('r', 5)
     .attr('fill', 'steelblue')
+    // .attr('r', (d) => rScale(d.totalLines))
+    .style('fill-opacity', 0.7) // Add transparency for overlapping dots
     .on('mouseenter', (event, commit) => {
         updateTooltipContent(commit);
         updateTooltipVisibility(true);
+        updateTooltipPosition(event);
       })
     .on('mouseleave', () => {
         updateTooltipContent({});
         updateTooltipVisibility(false);
+        
     });
     
 
@@ -213,7 +217,22 @@ function updateTooltipContent(commit) {
   }
 
 
-  function updateTooltipVisibility(isVisible) {
+function updateTooltipVisibility(isVisible) {
     const tooltip = document.getElementById('commit-tooltip');
     tooltip.hidden = !isVisible;
   }
+
+
+function updateTooltipPosition(event) {
+    const tooltip = document.getElementById('commit-tooltip');
+    tooltip.style.left = `${event.clientX}px`;
+    tooltip.style.top = `${event.clientY}px`;
+  }
+
+
+  const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+  const rScale = d3.scaleLinear().domain([minLines, maxLines]).range([2, 30]); // adjust these values based on your experimentation
+
+
+
+

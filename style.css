@@ -270,7 +270,7 @@ path {
 
 .dots circle {
   fill: steelblue;
-  opacity: 0.8;
+  /* opacity: 0.8; */
   transition: opacity 0.2s;
   transform-origin: center;
   transform-box: fill-box;
@@ -314,8 +314,8 @@ dl.info dd {
 
 .tooltip {
   position: fixed;
-  top: 1em;
-  left: 1em;
+  /* top: 1em;
+  left: 1em; */
   z-index: 1000; 
   pointer-events: none; 
 }
