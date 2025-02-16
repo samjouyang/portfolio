@@ -1,6 +1,7 @@
 let data = [];
 
 
+
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
   createScatterplot();
@@ -105,6 +106,13 @@ function createScatterplot(){
 
     const width = 1000;
     const height = 600;
+    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
+    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
+    // const rScale = d3.scaleLinear().domain([minLines, maxLines]).range([2, 30]); // adjust these values based on your experimentation
+    const rScale = d3
+        .scaleSqrt() // Change only this line
+        .domain([minLines, maxLines])
+        .range([2, 30]);
 
 
     const svg = d3
@@ -126,25 +134,35 @@ function createScatterplot(){
     const dots = svg.append('g').attr('class', 'dots');
 
     dots
-    .selectAll('circle')
+    .selectAll('circle').data(sortedCommits).join('circle')
     .data(commits)
     .join('circle')
     .attr('cx', (d) => xScale(d.datetime))
     .attr('cy', (d) => yScale(d.hourFrac))
     .attr('r', 5)
     .attr('fill', 'steelblue')
-    // .attr('r', (d) => rScale(d.totalLines))
+    .attr('r', (d) => rScale(d.totalLines))
     .style('fill-opacity', 0.7) // Add transparency for overlapping dots
-    .on('mouseenter', (event, commit) => {
-        updateTooltipContent(commit);
+    // .on('mouseenter', (event, commit) => {
+    //     updateTooltipContent(commit);
+    //     updateTooltipVisibility(true);
+    //     updateTooltipPosition(event);
+    //   })
+
+    .on('mouseenter', function (event, d, i) {
+        d3.select(event.currentTarget).style('fill-opacity', 1); // Full opacity on hover
+        updateTooltipContent(d)
         updateTooltipVisibility(true);
         updateTooltipPosition(event);
-      })
-    .on('mouseleave', () => {
+    })
+
+
+    .on("mouseleave", (event) => {
+        d3.select(event.currentTarget).style("fill-opacity", 0.7);
         updateTooltipContent({});
         updateTooltipVisibility(false);
-        
     });
+
     
 
     const margin = { top: 10, right: 10, bottom: 30, left: 20 };
@@ -230,9 +248,7 @@ function updateTooltipPosition(event) {
   }
 
 
-  const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
-  const rScale = d3.scaleLinear().domain([minLines, maxLines]).range([2, 30]); // adjust these values based on your experimentation
-
-
+  
+ 
 
 
