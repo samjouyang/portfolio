@@ -316,7 +316,7 @@ dl.info dd {
   position: fixed;
   top: 1em;
   left: 1em;
-  z-index: 100; 
+  z-index: 1000; 
   pointer-events: none; 
 }
 
@@ -330,3 +330,14 @@ dl.info dd {
   text-decoration: underline;
 }
 
+
+dl.info {
+  /* ... other styles ... */
+  transition-duration: 500ms;
+  transition-property: opacity, visibility;
+}
+
+dl.info[hidden]:not(:hover, :focus-within) {
+  opacity: 0;
+  visibility: hidden;
+}
