@@ -27,10 +27,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       .toLocaleString('en-US', {dateStyle: "long", timeStyle: "short"}));
     
     const filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
-    updateVisualization(filteredCommits);
+    updateScatterplot(filteredCommits);
   });
 
-  createScatterplot();
+  updateScatterplot(commits);
   brushSelector();
 });
 
@@ -131,16 +131,9 @@ function displayStats() {
         
         // Filter and update visualization
         const filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
-        updateVisualization(filteredCommits);
+        updateScatterplot(filteredCommits);
     });
 
-    function updateScatterplot(filteredCommits) {
-        // Update your visualization with filtered data
-        // This will depend on your existing visualization code
-        // You'll need to modify this function based on your specific implementation
-
-        
-    }
 
 
 
@@ -167,117 +160,103 @@ function displayStats() {
     addStat("Average line length (characters)", avgLineLength.toFixed(2));
 }
 
-function createScatterplot(){
+function updateScatterplot(filteredCommits) {
+  // Clear previous SVG
+  d3.select('#chart svg').remove();
+  
+  const width = 1000;
+  const height = 600;
+  
+  // Use filteredCommits instead of commits for scales
+  const [minLines, maxLines] = d3.extent(filteredCommits, (d) => d.totalLines);
+  const sortedCommits = d3.sort(filteredCommits, (d) => -d.totalLines);
+  
+  const rScale = d3
+    .scaleSqrt()
+    .domain([minLines, maxLines])
+    .range([2, 30]);
 
-
-
-    const width = 1000;
-    const height = 600;
-    const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
-    const sortedCommits = d3.sort(commits, (d) => -d.totalLines);
-    // const rScale = d3.scaleLinear().domain([minLines, maxLines]).range([2, 30]); // adjust these values based on your experimentation
-    const rScale = d3
-        .scaleSqrt() // Change only this line
-        .domain([minLines, maxLines])
-        .range([2, 30]);
-
-
-    const svg = d3
+  const svg = d3
     .select('#chart')
     .append('svg')
     .attr('viewBox', `0 0 ${width} ${height}`)
     .style('overflow', 'visible');
 
-
-    xScale = d3
+  // Use filteredCommits for domain
+  xScale = d3
     .scaleTime()
-    .domain(d3.extent(commits, (d) => d.datetime))
+    .domain(d3.extent(filteredCommits, (d) => d.datetime))
     .range([0, width])
     .nice();
 
-    yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
+  yScale = d3.scaleLinear().domain([0, 24]).range([height, 0]);
 
+  const margin = { top: 10, right: 10, bottom: 30, left: 20 };
 
-    const dots = svg.append('g').attr('class', 'dots');
+  const usableArea = {
+    top: margin.top,
+    right: width - margin.right,
+    bottom: height - margin.bottom,
+    left: margin.left,
+    width: width - margin.left - margin.right,
+    height: height - margin.top - margin.bottom,
+  };
+  
+  // Update scales with new ranges
+  xScale.range([usableArea.left, usableArea.right]);
+  yScale.range([usableArea.bottom, usableArea.top]);
 
-    dots
-    .selectAll('circle').data(sortedCommits).join('circle')
-    .data(commits)
-    .join('circle')
-    .attr('cx', (d) => xScale(d.datetime))
-    .attr('cy', (d) => yScale(d.hourFrac))
-    .attr('r', 5)
-    .attr('fill', 'steelblue')
-    .attr('r', (d) => rScale(d.totalLines))
-    .style('fill-opacity', 0.7) // Add transparency for overlapping dots
-    // .on('mouseenter', (event, commit) => {
-    //     updateTooltipContent(commit);
-    //     updateTooltipVisibility(true);
-    //     updateTooltipPosition(event);
-    //   })
-
-    .on('mouseenter', function (event, d, i) {
-        d3.select(event.currentTarget).style('fill-opacity', 1); // Full opacity on hover
-        updateTooltipContent(d)
-        updateTooltipVisibility(true);
-        updateTooltipPosition(event);
-    })
-
-
-    .on("mouseleave", (event) => {
-        d3.select(event.currentTarget).style("fill-opacity", 0.7);
-        updateTooltipContent({});
-        updateTooltipVisibility(false);
-    });
-
-    
-
-    const margin = { top: 10, right: 10, bottom: 30, left: 20 };
-
-    const usableArea = {
-        top: margin.top,
-        right: width - margin.right,
-        bottom: height - margin.bottom,
-        left: margin.left,
-        width: width - margin.left - margin.right,
-        height: height - margin.top - margin.bottom,
-      };
-      
-      // Update scales with new ranges
-      xScale.range([usableArea.left, usableArea.right]);
-      yScale.range([usableArea.bottom, usableArea.top]);
-
-      // Create the axes
-    const xAxis = d3.axisBottom(xScale);
-    // const yAxis = d3.axisLeft(yScale);
-    const yAxis = d3
+  // Create the axes
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3
     .axisLeft(yScale)
     .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
 
-    // Add X axis
-    svg
-    .append('g')
-    .attr('transform', `translate(0, ${usableArea.bottom})`)
-    .call(xAxis);
-
-    // Add Y axis
-    svg
-    .append('g')
-    .attr('transform', `translate(${usableArea.left}, 0)`)
-    .call(yAxis);
-
-
-    // Add gridlines BEFORE the axes
-    const gridlines = svg
+  // Add gridlines
+  const gridlines = svg
     .append('g')
     .attr('class', 'gridlines')
     .attr('transform', `translate(${usableArea.left}, 0)`);
 
-    // Create gridlines as an axis with no labels and full-width ticks
-    gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
+  // Create gridlines as an axis with no labels and full-width ticks
+  gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
 
-    // brushSelector();
+  // Add X axis
+  svg
+    .append('g')
+    .attr('transform', `translate(0, ${usableArea.bottom})`)
+    .call(xAxis);
 
+  // Add Y axis
+  svg
+    .append('g')
+    .attr('transform', `translate(${usableArea.left}, 0)`)
+    .call(yAxis);
+
+  // Create dots group
+  const dots = svg.append('g').attr('class', 'dots');
+
+  // Use filteredCommits for the dots
+  dots
+    .selectAll('circle')
+    .data(filteredCommits)
+    .join('circle')
+    .attr('cx', (d) => xScale(d.datetime))
+    .attr('cy', (d) => yScale(d.hourFrac))
+    .attr('r', (d) => rScale(d.totalLines))
+    .attr('fill', 'steelblue')
+    .style('fill-opacity', 0.7)
+    .on('mouseenter', function (event, d) {
+      d3.select(event.currentTarget).style('fill-opacity', 1);
+      updateTooltipContent(d);
+      updateTooltipVisibility(true);
+      updateTooltipPosition(event);
+    })
+    .on("mouseleave", function(event) {
+      d3.select(event.currentTarget).style("fill-opacity", 0.7);
+      updateTooltipContent({});
+      updateTooltipVisibility(false);
+    });
 }
 
 
