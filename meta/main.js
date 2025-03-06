@@ -257,6 +257,8 @@ function updateScatterplot(filteredCommits) {
       updateTooltipContent({});
       updateTooltipVisibility(false);
     });
+
+    brushSelector();
 }
 
 

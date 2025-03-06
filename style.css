@@ -268,7 +268,7 @@ path {
 }
 
 
-.dots circle {
+circle {
   fill: steelblue;
   /* opacity: 0.8; */
   transition: opacity 0.2s;
@@ -276,7 +276,7 @@ path {
   transform-box: fill-box;
 }
 
-.dots circle:hover {
+circle:hover {
   opacity: 1;
   fill: orange;
   transform: scale(1.5);
@@ -359,4 +359,8 @@ dl.info[hidden]:not(:hover, :focus-within) {
 
 circle.selected {
   fill: #ff6b6b;
+}
+
+@starting-style {
+  r: 0;
 }
