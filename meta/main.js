@@ -1,11 +1,35 @@
 let data = [];
 let xScale;
 let yScale;
-
-
+let commitProgress = 100;
+let timeScale;
+let commitMaxTime;
 
 document.addEventListener('DOMContentLoaded', async () => {
   await loadData();
+  processCommits(); // Make sure commits are processed before creating timeScale
+  
+  // Initialize time scale after commits are processed
+  timeScale = d3.scaleTime()
+    .domain([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)])
+    .range([0, 100]);
+  commitMaxTime = timeScale.invert(commitProgress);
+  
+  // Set up the slider interaction
+  const selectedTime = d3.select('#selectedTime');
+  selectedTime.text(timeScale.invert(commitProgress)
+    .toLocaleString('en-US', {dateStyle: "long", timeStyle: "short"}));
+
+  d3.select('#commitSlider').on('input', function() {
+    commitProgress = +this.value;
+    commitMaxTime = timeScale.invert(commitProgress);
+    selectedTime.text(commitMaxTime
+      .toLocaleString('en-US', {dateStyle: "long", timeStyle: "short"}));
+    
+    const filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
+    updateVisualization(filteredCommits);
+  });
+
   createScatterplot();
   brushSelector();
 });
@@ -82,6 +106,43 @@ function displayStats() {
         dl.append("dt").text(title);
         dl.append("dd").text(value);
     }
+
+
+
+
+    // Add these variables after your commits data is loaded
+    let commitProgress = 100;
+    let timeScale = d3.scaleTime()
+        .domain([d3.min(commits, d => d.datetime), d3.max(commits, d => d.datetime)])
+        .range([0, 100]);
+    let commitMaxTime = timeScale.invert(commitProgress);
+
+    // Add this where you set up your visualization
+    const selectedTime = d3.select('#selectedTime');
+    selectedTime.textContent = timeScale.invert(commitProgress)
+        .toLocaleString('en-US', {dateStyle: "long", timeStyle: "short"});
+
+    // Add the event listener for the slider
+    d3.select('#commitSlider').on('input', function() {
+        commitProgress = +this.value;
+        commitMaxTime = timeScale.invert(commitProgress);
+        selectedTime.textContent = commitMaxTime
+            .toLocaleString('en-US', {dateStyle: "long", timeStyle: "short"});
+        
+        // Filter and update visualization
+        const filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
+        updateVisualization(filteredCommits);
+    });
+
+    function updateVisualization(filteredCommits) {
+        // Update your visualization with filtered data
+        // This will depend on your existing visualization code
+        // You'll need to modify this function based on your specific implementation
+    }
+
+
+
+
 
     // Populate stats
     addStat("Total LOC", data.length);
@@ -267,7 +328,6 @@ function brushed(event) {
   updateSelection();
   updateSelectionCount();
   updateLanguageBreakdown();
-
 }
 
 function isCommitSelected(commit) {

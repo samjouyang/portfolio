@@ -26,6 +26,13 @@
     <div id="stats"></div>
 
     <h2>Commits by time of day</h2>
+    <!-- Add this inside your chart div or wherever you want the slider to appear -->
+    <div id="timelineControls" style="display: flex; align-items: baseline; margin-bottom: 10px;">
+      <label for="commitSlider" style="margin-right: 10px;">Show commits until:</label>
+      <input type="range" id="commitSlider" min="0" max="100" value="100" style="margin: 0 10px; width: 200px;">
+      <time id="selectedTime" style="margin-left: auto;"></time>
+    </div>
+
     <div id="chart"></div>
 
 
