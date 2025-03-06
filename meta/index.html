@@ -29,9 +29,9 @@
     <!-- Add this inside your chart div or wherever you want the slider to appear -->
     <!-- Replace the timelineControls div with this updated version -->
     <div id="timelineControls" style="display: flex; align-items: baseline; margin-bottom: 10px;">
-      <span style="margin-right: 10px;">Show commits until:</span>
-      <input type="range" id="commitSlider" min="0" max="100" value="100" style="margin: 0 10px; flex-grow: 1; width: auto; max-width: 600px;">
-      <time id="selectedTime" style="margin-left: 10px; min-width: 200px;"></time>
+      <span style="margin-right: 10px; position: static;">Show commits until:</span>
+      <input type="range" id="commitSlider" min="0" max="100" value="100" style="margin: 0 10px; flex-grow: 1; width: auto; max-width: 600px; position: static;">
+      <time id="selectedTime" style="margin-left: 10px; min-width: 200px; position: static;"></time>
     </div>
 
     <div id="chart"></div>

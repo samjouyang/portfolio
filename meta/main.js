@@ -1,7 +1,6 @@
 let data = [];
 let xScale;
 let yScale;
-let selectedCommits = []; // Declare selectedCommits at the top level
 let commitProgress = 100;
 let timeScale;
 let commitMaxTime;
@@ -135,14 +134,12 @@ function displayStats() {
         updateVisualization(filteredCommits);
     });
 
-    // Add this function if it's not already defined
-    function updateVisualization(filteredCommits) {
-      // Update the dots
-      d3.select('#chart')
-        .selectAll('circle')
-        .style('opacity', d => {
-          return d.datetime <= commitMaxTime ? 0.7 : 0.1;
-        });
+    function updateScatterplot(filteredCommits) {
+        // Update your visualization with filtered data
+        // This will depend on your existing visualization code
+        // You'll need to modify this function based on your specific implementation
+
+        
     }
 
 
@@ -329,27 +326,23 @@ function brushSelector() {
 let brushSelection = null;
 
 function brushed(event) {
-  let brushSelection = event.selection;
-  selectedCommits = !brushSelection
-    ? []
-    : commits.filter((commit) => {
-        let min = { x: brushSelection[0][0], y: brushSelection[0][1] };
-        let max = { x: brushSelection[1][0], y: brushSelection[1][1] };
-        let x = xScale(commit.datetime); // Make sure we're using datetime consistently
-        let y = yScale(commit.hourFrac);
-
-        return x >= min.x && x <= max.x && y >= min.y && y <= max.y;
-      });
-  
+  brushSelection = event.selection;
   updateSelection();
   updateSelectionCount();
   updateLanguageBreakdown();
 }
 
 function isCommitSelected(commit) {
-  return selectedCommits.includes(commit);
-}
+    if (!brushSelection) {
+        return false;
+    }
 
+    const min = { x: brushSelection[0][0], y: brushSelection[0][1] }; 
+    const max = { x: brushSelection[1][0], y: brushSelection[1][1] }; 
+    const x = xScale(commit.date); 
+    const y = yScale(commit.hourFrac);
+    return x >= min.x && x <= max.x && y >= min.y && y <= max.y; 
+}
 
 function updateSelection() {
   // Update visual state of dots based on selection
@@ -357,23 +350,29 @@ function updateSelection() {
 }
 
 function updateSelectionCount() {
-  const countElement = document.getElementById('selection-count');
-  countElement.textContent = `${
-    selectedCommits.length || 'No'
-  } commits selected`;
+    const selectedCommits = brushSelection
+      ? commits.filter(isCommitSelected)
+      : [];
   
-  return selectedCommits;
-}
+    const countElement = document.getElementById('selection-count');
+    countElement.textContent = `${
+      selectedCommits.length || 'No'
+    } commits selected`;
+  
+    return selectedCommits;
+  }
 
 
   function updateLanguageBreakdown() {
+    const selectedCommits = brushSelection
+      ? commits.filter(isCommitSelected)
+      : [];
     const container = document.getElementById('language-breakdown');
   
     if (selectedCommits.length === 0) {
       container.innerHTML = '';
       return;
     }
-    
     const requiredCommits = selectedCommits.length ? selectedCommits : commits;
     const lines = requiredCommits.flatMap((d) => d.lines);
   
