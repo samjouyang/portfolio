@@ -451,6 +451,45 @@ scrollContainer.on('scroll', () => {
 });
 
 
+function renderItems(startIndex) {
+    // Clear things off
+    itemsContainer.selectAll('div').remove();
+    const endIndex = Math.min(startIndex + VISIBLE_COUNT, commits.length);
+    let newCommitSlice = commits.slice(startIndex, endIndex);
+    
+    // Update the scatterplot with the visible commits
+    updateScatterplot(newCommitSlice);
+    updateFileDetails(newCommitSlice);
+    
+    // Re-bind the commit data to the container and represent each using a div
+    itemsContainer.selectAll('div')
+                  .data(newCommitSlice)
+                  .enter()
+                  .append('div')
+                  .attr('class', 'item')
+                  .html(d => {
+                    return `
+                      <strong>${d.id.substring(0, 7)}</strong> - 
+                      ${d.datetime.toLocaleString('en-US', {dateStyle: "short", timeStyle: "short"})} - 
+                      ${d.author} - 
+                      ${d.totalLines} lines
+                    `;
+                  })
+                  .on('click', (event, d) => {
+                    // Highlight this commit when clicked
+                    itemsContainer.selectAll('.item').classed('selected', false);
+                    d3.select(event.currentTarget).classed('selected', true);
+                    
+                    // Update tooltip with detailed information
+                    updateTooltipContent(d);
+                    updateTooltipVisibility(true);
+                    updateTooltipPosition(event);
+                  })
+                  .style('position', 'absolute')
+                  .style('top', (_, idx) => `${idx * ITEM_HEIGHT}px`);
+}
+
+
 
 
   
