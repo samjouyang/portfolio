@@ -435,6 +435,22 @@ function updateFileDetails(filteredCommits) {
 }
 
 
+let NUM_ITEMS = 100; // Ideally, let this value be the length of your commit history
+let ITEM_HEIGHT = 30; // Feel free to change
+let VISIBLE_COUNT = 10; // Feel free to change as well
+let totalHeight = (NUM_ITEMS - 1) * ITEM_HEIGHT;
+const scrollContainer = d3.select('#scroll-container');
+const spacer = d3.select('#spacer');
+spacer.style('height', `${totalHeight}px`);
+const itemsContainer = d3.select('#items-container');
+scrollContainer.on('scroll', () => {
+  const scrollTop = scrollContainer.property('scrollTop');
+  let startIndex = Math.floor(scrollTop / ITEM_HEIGHT);
+  startIndex = Math.max(0, Math.min(startIndex, commits.length - VISIBLE_COUNT));
+  renderItems(startIndex);
+});
+
+
 
 
   
