@@ -375,7 +375,6 @@ circle.selected {
 
 
 
-
 .files {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -414,3 +413,19 @@ circle.selected {
   border-radius: 3px;
 }
 
+
+.files dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+}
+
+
+.line {
+  display: flex;
+  width: 0.5em;
+  aspect-ratio: 1;
+  background: steelblue;
+  border-radius: 50%;
+}

@@ -414,10 +414,23 @@ function updateFileDetails(filteredCommits) {
   filesContainer.append('dt')
     .append('code')
     .text(d => d.name);
-  
+
   // Add line counts
   filesContainer.append('dd')
     .text(d => `${d.lines.length} lines`);
+  
+  // Replace the simple text with unit visualization
+  filesContainer.append('dd')
+    .selectAll('div')
+    .data(d => d.lines)
+    .enter()
+    .append('div')
+    .attr('class', 'line')
+    .attr('title', d => `Line ${d.line}: ${d.text}`);
+}
+
+
+
 
   
-}
+
