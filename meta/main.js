@@ -435,9 +435,9 @@ function updateFileDetails(filteredCommits) {
 }
 
 
-let NUM_ITEMS = 100; // Ideally, let this value be the length of your commit history
-let ITEM_HEIGHT = 30; // Feel free to change
-let VISIBLE_COUNT = 10; // Feel free to change as well
+let NUM_ITEMS = 200; // Ideally, let this value be the length of your commit history
+let ITEM_HEIGHT = 160; // Feel free to change
+let VISIBLE_COUNT = 100; // Feel free to change as well
 let totalHeight = (NUM_ITEMS - 1) * ITEM_HEIGHT;
 const scrollContainer = d3.select('#scroll-container');
 const spacer = d3.select('#spacer');
@@ -467,12 +467,21 @@ function renderItems(startIndex) {
                   .enter()
                   .append('div')
                   .attr('class', 'item')
-                  .html(d => {
+                  .html((d, index) => {
+                    // Count the number of files modified in this commit
+                    const fileCount = d3.rollups(d.lines, D => D.length, file => file.file).length;
+                    
+                    // Create narrative text for each commit
                     return `
-                      <strong>${d.id.substring(0, 7)}</strong> - 
-                      ${d.datetime.toLocaleString('en-US', {dateStyle: "short", timeStyle: "short"})} - 
-                      ${d.author} - 
-                      ${d.totalLines} lines
+                      <p>
+                        On ${d.datetime.toLocaleString("en", {dateStyle: "full", timeStyle: "short"})}, I made
+                        <a href="${d.url}" target="_blank">
+                          ${startIndex + index > 0 ? 'a commit. By the way, LeBron just reached 50,000 points. Make sure to follow @kingjames in Instagram for some super cute content.' : 'a commit. I also took LeBrons under on 3 pointers made on my parlay and it cashed #thatsmygoat'}
+                        </a>. I edited ${d.totalLines} lines across ${fileCount} files. Shout out to Rui Hachimura for hitting his over.
+                      </p>
+                      <div class="commit-meta">
+                        <strong>${d.id.substring(0, 7)}</strong> by ${d.author}
+                      </div>
                     `;
                   })
                   .on('click', (event, d) => {
