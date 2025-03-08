@@ -398,7 +398,10 @@ function updateFileDetails(filteredCommits) {
     });
   
   // Sort files by number of lines (descending)
-  files.sort((a, b) => b.lines.length - a.lines.length);
+  files = d3.sort(files, (d) => -d.lines.length);
+  
+  // Create a color scale for different line types
+  let typeColors = d3.scaleOrdinal(d3.schemeTableau10);
   
   // Clear existing content
   d3.select('.files').selectAll('div').remove();
@@ -415,18 +418,20 @@ function updateFileDetails(filteredCommits) {
     .append('code')
     .text(d => d.name);
 
-  // Add line counts
+  // Add line counts as text
   filesContainer.append('dd')
     .text(d => `${d.lines.length} lines`);
   
-  // Replace the simple text with unit visualization
-  filesContainer.append('dd')
-    .selectAll('div')
+  // Add unit visualization with colored squares based on line type
+  const unitContainer = filesContainer.append('dd');
+  
+  unitContainer.selectAll('div')
     .data(d => d.lines)
     .enter()
     .append('div')
-    .attr('class', 'line')
-    .attr('title', d => `Line ${d.line}: ${d.text}`);
+    .attr('class', 'line-unit')
+    .attr('title', d => `Line ${d.line}: ${d.text || ''} (${d.type || 'unknown'})`)
+    .style('background-color', d => typeColors(d.type || 'unknown'));
 }
 
 

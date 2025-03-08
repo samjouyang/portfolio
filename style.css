@@ -422,10 +422,17 @@ circle.selected {
 }
 
 
-.line {
+.line-unit {
   display: flex;
   width: 0.5em;
   aspect-ratio: 1;
   background: steelblue;
   border-radius: 50%;
 }
+
+
+:global(body) {
+  max-width: 120ch;
+}
+
+
