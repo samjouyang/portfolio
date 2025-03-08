@@ -28,9 +28,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const filteredCommits = commits.filter(d => d.datetime <= commitMaxTime);
     updateScatterplot(filteredCommits);
+    updateFileDetails(filteredCommits); // Add this line
   });
 
+  // Also add this line to initialize the file details
   updateScatterplot(commits);
+  updateFileDetails(commits); // Add this line
   brushSelector();
 });
 
@@ -378,4 +381,43 @@ function updateSelectionCount() {
     }
   
     return breakdown;
+
   }
+
+
+// Replace the incomplete code at the bottom with this function
+function updateFileDetails(filteredCommits) {
+  // Get all lines from filtered commits
+  let lines = filteredCommits.flatMap((d) => d.lines);
+  
+  // Group lines by file
+  let files = d3
+    .groups(lines, (d) => d.file)
+    .map(([name, lines]) => {
+      return { name, lines };
+    });
+  
+  // Sort files by number of lines (descending)
+  files.sort((a, b) => b.lines.length - a.lines.length);
+  
+  // Clear existing content
+  d3.select('.files').selectAll('div').remove();
+  
+  // Create file entries
+  let filesContainer = d3.select('.files')
+    .selectAll('div')
+    .data(files)
+    .enter()
+    .append('div');
+  
+  // Add file names
+  filesContainer.append('dt')
+    .append('code')
+    .text(d => d.name);
+  
+  // Add line counts
+  filesContainer.append('dd')
+    .text(d => `${d.lines.length} lines`);
+
+  
+}
